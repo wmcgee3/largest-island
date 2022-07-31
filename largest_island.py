@@ -59,10 +59,10 @@ def get_islands(matrix: list[str]) -> list[Island]:
     ):
         connected_islands = _get_connected_islands(point, islands)
         if connected_islands:
-            for c in connected_islands:
-                islands.remove(c)
+            for i in connected_islands:
+                islands.remove(i)
             islands.append(
-                Island([*(p for c in connected_islands for p in c.points), point])
+                Island([*(p for i in connected_islands for p in i.points), point])
             )
         else:
             islands.append(Island([point]))
@@ -79,7 +79,7 @@ def get_new_islands(matrix: list[str], islands: list[Island]) -> list[Island]:
     ):
         connected_islands = _get_connected_islands(empty_point, islands)
         new_islands.append(
-            Island([*(p for c in connected_islands for p in c.points), empty_point]),
+            Island([*(p for i in connected_islands for p in i.points), empty_point]),
         )
     return sorted(new_islands, key=lambda island: island.size)
 
@@ -90,14 +90,14 @@ def _get_connected_islands(point: Point, islands: list[Island]) -> list[Island]:
         for island in islands
         if any(
             (
-                (abs(point.x - ip.x), abs(point.y - ip.y))
+                (abs(point.x - p.x), abs(point.y - p.y))
                 in [
                     (0, 1),
                     (1, 0),
                     # uncomment if diagonal cells count as connected
                     # (1, 1),
                 ]
-                for ip in island.points
+                for p in island.points
             )
         )
     ]
